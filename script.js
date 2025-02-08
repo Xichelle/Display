@@ -6,10 +6,10 @@ let video;
 let faces = [];
 let options = { maxFaces: 3, refineLandmarks: false, flipHorizontal: false };
 let lastImageChangeTime = 0;
-let blurAmount = 10;
+let blurAmount = 50;
 
 function setup() {
-    createCanvas(640, 480);
+    createCanvas(windowWidth, windowHeight+100);
 
     // ✅ Create video capture
     video = createCapture(VIDEO);
@@ -52,8 +52,8 @@ function gotFaces(results) {
     console.log(`✅ Faces detected: ${faces.length}`);
 
     // Adjust blur effect based on detected faces
-    blurAmount = map(faces.length, 0, 3, 10, 0);
-    blurAmount = constrain(blurAmount, 0, 10);
+    blurAmount = map(faces.length, 0, 3, 50, 0);
+    blurAmount = constrain(blurAmount, 0, 50);
 
     detectFaces(); // Keep detecting in a loop
 }
@@ -76,6 +76,7 @@ function draw() {
         loadNextImage();
         lastImageChangeTime = millis();
     }
+    drawCircles(faces.length);
 }
 
 // ✅ Apply Blur Effect to Image
@@ -84,3 +85,27 @@ function applyEffects(img, faceCount) {
     image(img, 0, 0, width, height);
     drawingContext.filter = "none";
 }
+
+// ✅ Draw Circles Based on Face Count
+function drawCircles(faceCount) {
+    let circleColors = ["#f4f4f400", "#f4f4f400", "#f4f4f400"];
+
+    if (faceCount >= 1) circleColors[0] = "white";
+    if (faceCount >= 2) circleColors[1] = "white";
+    if (faceCount >= 3) circleColors[2] = "white";
+
+    let startX = 180; // Center circles horizontally
+    let yPosition = 160;
+
+    for (let i = 0; i < 3; i++) {
+        fill(circleColors[i]);
+        stroke(255);
+        strokeWeight(5)
+        ellipse(startX + i * 100, yPosition, 40, 40);
+    }
+}
+
+
+
+    
+
