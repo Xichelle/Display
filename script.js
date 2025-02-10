@@ -1,5 +1,5 @@
 let img;
-let images = ["image1.png", "image2.jpg", "image3.jpg", "image4.jpg"];
+let images = ["image1.png", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg", "image6.jpg", "image7.jpg", "image8.jpg", "image9.jpg", "image10.jpg", "image11.jpg", "image12.jpg"];
 let currentImageIndex = 0;
 let faceMesh;
 let video;
@@ -10,26 +10,26 @@ let lastImageChangeTime = 0;
 let imageOpacity = 0;// Start fully transparent
 
 function preload() {
-    gif = loadImage("tv_static.gif"); // ✅ Load the GIF (Replace with your GIF file)
+    gif = loadImage("tv_static.gif"); //  Load the GIF (Replace with your GIF file)
 }
 
 function setup() {
     createCanvas(windowWidth, windowHeight+100);
 
-    // ✅ Create video capture
+    //  Create video capture
     video = createCapture(VIDEO);
     video.size(640, 480);
     video.hide();
 
     console.log("Initializing Face Mesh...");
 
-    // ✅ Correctly initialize Face Mesh with options
+    // initialize Face Mesh with options
     faceMesh = ml5.faceMesh(video, options, modelLoaded);
 
     loadNextImage();
 }
 
-// ✅ Load Next Image
+//  Load Next Image
 function loadNextImage() {
     img = loadImage(images[currentImageIndex], () => {
         console.log("✅ Image loaded:", images[currentImageIndex]);
@@ -40,18 +40,18 @@ function loadNextImage() {
     currentImageIndex = (currentImageIndex + 1) % images.length;
 }
 
-// ✅ Face Mesh Model Loaded
+// Face Mesh Model Loaded
 function modelLoaded() {
     console.log("✅ Face Mesh Model Loaded");
     detectFaces(); // Start detecting faces
 }
 
-// ✅ Continuous Face Detection Loop
+// Continuous Face Detection Loop
 function detectFaces() {
-    faceMesh.detect(video, gotFaces); // ✅ Fix: Use `video` instead of `img`
+    faceMesh.detect(video, gotFaces); //
 }
 
-// ✅ Store Detected Faces and Update Blur
+// Store Detected Faces and Update Blur
 function gotFaces(results) {
     faces = results;
     console.log(`✅ Faces detected: ${faces.length}`);
@@ -68,14 +68,13 @@ function gotFaces(results) {
     detectFaces(); // Keep detecting in a loop
 }
 
-// ✅ Draw Loop
 function draw() {
     background(0);
 
-    // ✅ Draw the TV Static GIF as the background
+    // Draw the TV Static GIF as the background
     image(gif, 0, 0, width, height); // Cover the entire screen
 
-    // ✅ Apply transparency to the meme image
+    //  Apply transparency to the meme image
     if (img) {
         tint(255, imageOpacity); // Adjust transparency
         image(img, 0, 0, width, height); // Overlay the meme image
@@ -92,8 +91,7 @@ function draw() {
     // }
 
 
-
-    // ✅ If no faces detected for 60 seconds, change image
+    //  If no faces detected for 60 seconds, change image
     if (faces.length === 0 && millis() - lastImageChangeTime > 60000) {
         loadNextImage();
         lastImageChangeTime = millis();
@@ -101,14 +99,14 @@ function draw() {
     drawCircles(faces.length);
 }
 
-// ✅ Apply Blur Effect to Image
+//  Apply Blur Effect to Image
 // function applyEffects(img, faceCount) {
 //     drawingContext.filter = `blur(${blurAmount}px)`;
 //     image(img, 0, 0, width, height);
 //     drawingContext.filter = "none";
 // }
 
-// ✅ Draw Circles Based on Face Count
+// Draw Circles Based on Face Count
 function drawCircles(faceCount) {
     let circleColors = ["#f4f4f400", "#f4f4f400", "#f4f4f400"];
 
